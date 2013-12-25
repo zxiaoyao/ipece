@@ -1,0 +1,134 @@
+#define   TXT_LEN_MAX    160
+
+typedef struct {
+    char txt[TXT_LEN_MAX];
+} STRING;
+
+typedef struct {
+    char  pdb_line[TXT_LEN_MAX];
+    float r[3];
+    float backup_r[3];
+    float acc;
+    float score;
+} ATOM;
+
+typedef struct {
+    int n;
+    ATOM *array;
+} ATOMS;
+
+typedef struct {
+    float min[3];
+    float max[3];
+} BOUNDARY;
+
+typedef struct {
+    char res[4];
+    char atom[5];
+    float buried_score;
+    float edge_score;
+} SA_TYPE;
+
+typedef struct {
+    float lattice_scale;
+
+    int   add_mem;
+    int   inner_mem;
+    
+    float mem_thickness;
+    int   n_iteration;
+    float translation_max;
+    float rotation_max;
+    float boundary_extention[3];
+    float beta;
+    float surface_exp_rad;
+    STRING mem_name;
+    float mem_radius;
+    float mem_place_sep;
+    int   n_sa_type;  /* number of scored atom types */
+    SA_TYPE *sa_type;
+    
+    float axis_score_weight;
+    float axis_orientation_update;   /* Every a few steps, reprobe the protein and calculation the axis orientation again */
+    float axis_extention;
+    int   move_back;
+    
+    int   add_ion;
+    float cav[3];
+    float cav_thr;
+    int   n_ion;
+    STRING *ion_name;
+    float *ion_radius;
+    float *ion_place_sep;
+    
+    float half_mem_thickness;
+    float PI;
+    /* 0.9                             !small_th_ctf
+    0.85                            !fit_bnd_thr
+    10.                             !beta
+    10.                             !size_mem
+    t                               !add_ion
+    
+    3.                              !non_pene
+    2.                              !score_acc
+    O   HOH                         !inner_ion1
+    2.8                             !radi_ion1
+    */
+} IPECE_PRM;
+
+typedef struct {
+    char motion_type;
+    float move[4];
+    float score;
+} HISTORY;
+
+typedef struct {
+    int n;
+    HISTORY *array;
+} HISTORIES;
+
+typedef struct {
+    int lower_lattice[3];
+    int upper_lattice[3];
+    int n_lattice[3];
+    char *lattice_prop;
+    float buried_cylinder_axis[3];
+    float backup_axis[3];
+} BOX;
+
+typedef struct {
+    int n;
+    long *array;
+} LONGS;
+
+IPECE_PRM read_ipece_prm();
+STRING strip_comment(char *str);
+STRING  strip_spc(char *str);
+ATOMS read_atoms(char *pdb_fname);
+int find_center_nonhet(ATOMS atoms, float *central_point);
+void translate(ATOMS atoms, float *translation);
+void rotate(ATOMS atoms, float *rotation);
+void rotate_axis(float *rotation);
+void save_hist(char motion_type, float *move, float score, HISTORIES *histories_p);
+void coor2latt(float *coordi, int *lattice_point);
+void latt2coor(int *lattice_point, float *coordi);
+long index_lattice(int *lattice_point);
+void idx2latt(long index, int *lattice_point);
+float distsq(float *r1, float *r2);
+float get_rad(ATOM atom);
+void probe(ATOMS atoms, float probe_radius);
+ATOMS get_scored_atoms(ATOMS atoms);
+void read_acc_atom(ATOMS atoms, char *acc_fname);
+float get_score(ATOMS atoms);
+void backup(ATOMS atoms);
+void recover(ATOMS atoms);
+void normalize_vec(float *input_vec, float *normalized_vec);
+void get_buried_cylinder_axis();
+void backup_axis();
+void recover_axis();
+double ran2(long *idum);
+void minimum_score_position(ATOMS atoms,HISTORIES *histories_p, int n_iteration);
+void back_move(ATOMS atoms, HISTORY history);
+void add_mem_atoms(ATOMS *atoms_p);
+void add_ion_atoms(ATOMS *atoms_p, int i_ion);
+

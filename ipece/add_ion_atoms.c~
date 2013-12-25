@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "ipece.h"
+
+extern IPECE_PRM ipece_prm;
+extern BOX box;
+
+void add_ion_atoms(ATOMS *atoms_p, int i_ion) {
+    int   lattice_point[3];
+    float coordi[3] = {0,0,0};
+    int   ngh_lattice_point[3];
+    float ngh_coordi[3];
+    int added;
+    int i;
+    int n_ion;
+
+    probe(*atoms_p,ipece_prm.ion_radius[i_ion]);
+    n_ion=0;
+    for (lattice_point[0] = 0; lattice_point[0] < box.n_lattice[0]; lattice_point[0]++) {
+        for (lattice_point[1] = 0; lattice_point[1] < box.n_lattice[1]; lattice_point[1]++) {
+            for (lattice_point[2] = 0; lattice_point[2] < box.n_lattice[2]; lattice_point[2]++) {
+                //if (box.lattice_prop[index_lattice(lattice_point)] == 's') {
+                //if (box.lattice_prop[index_lattice(lattice_point)] == 'c' || box.lattice_prop[index_lattice(lattice_point)] == 's') {
+                if (box.lattice_prop[index_lattice(lattice_point)] == 'c') {
+                    latt2coor(lattice_point,coordi);
+                    //if (box.lattice_prop[index_lattice(lattice_point)] == 'o' && sqrt(distsq(coordi,ipece_prm.cav))>ipece_prm.cav_thr) continue;
+                    added = 0; /* added = 1 if another atom within certain distance has been added (to make sure added atoms are seperated by given distance. */
+                    for (ngh_lattice_point[0] = lattice_point[0]-ipece_prm.ion_place_sep[i_ion]/ipece_prm.lattice_scale; ngh_lattice_point[0]<=lattice_point[0]+ipece_prm.ion_place_sep[i_ion]/ipece_prm.lattice_scale; ngh_lattice_point[0]++) {
+                        for (ngh_lattice_point[1] = lattice_point[1]-ipece_prm.ion_place_sep[i_ion]/ipece_prm.lattice_scale; ngh_lattice_point[1]<=lattice_point[1]+ipece_prm.ion_place_sep[i_ion]/ipece_prm.lattice_scale; ngh_lattice_point[1]++) {
+                            for (ngh_lattice_point[2] = lattice_point[2]-ipece_prm.ion_place_sep[i_ion]/ipece_prm.lattice_scale; ngh_lattice_point[2]<=lattice_point[2]+ipece_prm.ion_place_sep[i_ion]/ipece_prm.lattice_scale; ngh_lattice_point[2]++) {
+                                latt2coor(ngh_lattice_point,ngh_coordi);
+                                if (distsq(coordi, ngh_coordi) < ipece_prm.ion_place_sep[i_ion]) {
+                                    if (box.lattice_prop[index_lattice(ngh_lattice_point)] == 'a') {
+                                        added = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (added) break;
+                        }
+                        if (added) break;
+                    }
+                    if (!added) {
+                        box.lattice_prop[index_lattice(lattice_point)] = 'a';
+                        n_ion++;
+                        atoms_p->n++;
+                        atoms_p->array = realloc(atoms_p->array, atoms_p->n * sizeof(ATOM));
+                        memset(&atoms_p->array[atoms_p->n-1],0,sizeof(ATOM));
+                        sprintf(atoms_p->array[atoms_p->n-1].pdb_line,"HETATM      ");
+                        strcat(atoms_p->array[atoms_p->n-1].pdb_line,ipece_prm.ion_name[i_ion].txt);
+                        sprintf(atoms_p->array[atoms_p->n-1].pdb_line+22,"%4i",n_ion);
+                        sprintf(atoms_p->array[atoms_p->n-1].pdb_line+26,"    %8.3f%8.3f%8.3f\n",coordi[0],coordi[1],coordi[2]);
+                        for(i=0;i<3;i++)
+                            atoms_p->array[atoms_p->n-1].r[i] = coordi[i];
+                    }
+                }
+            }
+        }
+    }
+    printf("%i atoms added for ion type: %s\n",n_ion,ipece_prm.ion_name[i_ion].txt);
+}

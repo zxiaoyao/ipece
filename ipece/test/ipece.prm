@@ -1,0 +1,44 @@
+LATTICE_SCALE                   1.0
+
+ADD_MEM                         f
+INNER_MEM                       t
+MEM_THICKNESS                   30.   #default is 30
+N_ITERATION                     2000
+TRANSLATION_MAX                 1.
+ROTATION_MAX                    15.
+BOUNDARY_EXTENTION_X            8  #4.8 gives small membrane, 8 std
+BOUNDARY_EXTENTION_Y            8
+BOUNDARY_EXTENTION_Z            5.      
+BETA                            10.
+SURFACE_EXP_RAD                 2.  # Expose to the surface if within this range from protein outside
+MEM_RADIUS                      1.7
+MEM_PLACE_SEP                   3.4 #3.0 might be better
+MEM_NAME                         Cx  MEM X 999  #col:33-46 would copied into PDB col:13-26;     
+AXIS_SCORE_WEIGHT               10.   #default 100
+AXIS_ORIENTATION_UPDATE         500
+AXIS_EXTENTION                  2.
+MOVE_BACK                       t
+
+#SCORED_ATOM
+#col 33-35  residue name
+#col 41-44  atom name
+#col 49-56  score weight 1 for buried in membrane
+#col 57-64  score weight 2 for on edge of membrane
+SCORED_ATOM                     ASP      OD1    2.      2.
+SCORED_ATOM                     ASP      OD2    2.      2.
+SCORED_ATOM                     GLU      OE1    2.      2.
+SCORED_ATOM                     GLU      OE2    2.      2.
+SCORED_ATOM                     ARG      NH1    2.      2.
+SCORED_ATOM                     ARG      NH2    2.      2.
+SCORED_ATOM                     LYS      NZ     4.      4.
+#for waters or ions  - parameters for these below
+ADD_ION                         t
+CAV_POS           89.515 117.352  36.414 
+CAV_THR           6.0
+
+#ION_NAME:
+#col:33-42 would copied into PDB col:13-22;     
+#col:49-56 is ion radius(used for probing);
+#col:57-64 is distance seperation for ion placement.
+ION_NAME                         O   HOH X      0.1     0.5
+#ION_NAME                         CL  _CL Y      1.2     0.5
