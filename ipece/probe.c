@@ -54,10 +54,12 @@ void probe(ATOMS atoms, float probe_radius)
         box.n_lattice[i] = box.upper_lattice[i] - box.lower_lattice[i] + 1;
     }
     
+    // labels of all lattice points
     box.lattice_prop = realloc(box.lattice_prop, box.n_lattice[0]*box.n_lattice[1]*box.n_lattice[2]*sizeof(char));
     memset(box.lattice_prop,0,box.n_lattice[0]*box.n_lattice[1]*box.n_lattice[2]*sizeof(char));
     
     for (ia=0; ia<atoms.n; ia++) {
+    	// only "ATOM" is taken into account, not "HEATOM"
         if (strncmp(atoms.array[ia].pdb_line, "ATOM  ", 6)) continue;
         coor2latt(atoms.array[ia].r,lattice_point);
         
@@ -76,10 +78,12 @@ void probe(ATOMS atoms, float probe_radius)
                     
                     //printf("%d, %d\n",index_lattice(ngh_lattice_point), box.n_lattice[0]*box.n_lattice[1]*box.n_lattice[2]);
                     //if (distsq(atoms.array[ia].r, ngh_coordi) < radsq) {
+                    // 'p' refers to being inside the atom.
                     if (distsq_2ngh <= radsq) {
                         box.lattice_prop[index_lattice(ngh_lattice_point)] = 'p';
                     }
                     else if (distsq_2ngh <= sum_rad_sq) {
+                    	// 's' means "surface"?
                         if ( box.lattice_prop[index_lattice(ngh_lattice_point)] != 'p' ) {
                             box.lattice_prop[index_lattice(ngh_lattice_point)] = 's';
                         }
@@ -292,7 +296,6 @@ void probe(ATOMS atoms, float probe_radius)
             }
         }
     }
-    //printf("here2\n");
 }
 
 void write_probe(char *file_name) {

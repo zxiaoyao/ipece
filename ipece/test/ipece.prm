@@ -1,17 +1,21 @@
 LATTICE_SCALE                   1.0
 
-ADD_MEM                         f
+ADD_MEM                         t
 INNER_MEM                       t
 MEM_THICKNESS                   30.   #default is 30
 N_ITERATION                     2000
 TRANSLATION_MAX                 1.
 ROTATION_MAX                    15.
+
+
 BOUNDARY_EXTENTION_X            8  #4.8 gives small membrane, 8 std
 BOUNDARY_EXTENTION_Y            8
-BOUNDARY_EXTENTION_Z            5.      
+BOUNDARY_EXTENTION_Z            5. 
+
+     
 BETA                            10.
 SURFACE_EXP_RAD                 2.  # Expose to the surface if within this range from protein outside
-MEM_RADIUS                      1.7
+MEM_RADIUS                      1.7      # radius of membrane atom
 MEM_PLACE_SEP                   3.4 #3.0 might be better
 MEM_NAME                         Cx  MEM X 999  #col:33-46 would copied into PDB col:13-26;     
 AXIS_SCORE_WEIGHT               10.   #default 100
@@ -38,7 +42,9 @@ CAV_THR           6.0
 
 #ION_NAME:
 #col:33-42 would copied into PDB col:13-22;     
-#col:49-56 is ion radius(used for probing);
-#col:57-64 is distance seperation for ion placement.
-ION_NAME                         O   HOH X      0.1     0.5
+#col:49-56 is ion radius(used for probing), self radius;
+#col:57-64 is distance separation for ion placement.
+0        1         2         3         4         5         6  
+123456789012345678901234567890123456789012345678901234567890
+ION_NAME                         O   HOH X      0.1     5.1
 #ION_NAME                         CL  _CL Y      1.2     0.5

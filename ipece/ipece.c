@@ -41,11 +41,15 @@ int main(int argc, char *argv[])
     
     printf("\n     IPECE - Implement Protein Environment for Continumm Electrostatics\n");
     printf("                           Version 1.0.3\n\n");
+
+
     memset(&histories,0,sizeof(HISTORIES));
     memset(&box, 0, sizeof(BOX));
+
     ipece_prm = read_ipece_prm(argv[1]);
     all_atoms = read_atoms(argv[2]);
     pdb_out_fname = argv[3];
+
     if (!all_atoms.n) {
         printf("No atoms read in from %s\n", argv[2]);
         exit(-1);
@@ -64,6 +68,7 @@ int main(int argc, char *argv[])
         for(i=0;i<3;i++) neg_central[i] = -central_point[i];
         
         translate(all_atoms, neg_central);
+        printf("axis score weight %.3f\n", ipece_prm.axis_score_weight);
         save_hist('t', neg_central, ipece_prm.axis_score_weight, &histories);
         probe(all_atoms,ipece_prm.mem_radius);
         scored_atoms = get_scored_atoms(all_atoms);  /* make another list and copy of atoms. */

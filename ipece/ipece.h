@@ -9,6 +9,7 @@ typedef struct {
     float r[3];
     float backup_r[3];
     float acc;
+    /* some score */
     float score;
 } ATOM;
 
@@ -105,7 +106,7 @@ typedef struct {
     long *array;
 } LONGS;
 
-IPECE_PRM read_ipece_prm();
+IPECE_PRM read_ipece_prm(char *prmFile);
 STRING strip_comment(char *str);
 STRING  strip_spc(char *str);
 ATOMS read_atoms(char *pdb_fname);

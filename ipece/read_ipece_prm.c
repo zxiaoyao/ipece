@@ -4,14 +4,18 @@
 #include <math.h>
 #include "ipece.h"
 
-IPECE_PRM read_ipece_prm() {
+IPECE_PRM read_ipece_prm(char *prmFile)
+{
+	printf("here, no argument\n");
     IPECE_PRM ipece_prm;
     FILE *ipece_param_fp;
     STRING buffer_str;
     char buffer2[TXT_LEN_MAX];
     
     memset(&ipece_prm, 0, sizeof(IPECE_PRM));
-    ipece_param_fp = fopen("ipece.prm","r");
+//    ipece_param_fp = fopen("ipece.prm","r");
+    ipece_param_fp = fopen(prmFile,"r");
+
     if (!ipece_param_fp) {
         printf ("Error: Input file \"ipece.prm\" not found.\n");
         exit(-1);
