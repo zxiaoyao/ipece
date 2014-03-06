@@ -98,7 +98,7 @@ void probe(ATOMS atoms, float probe_radius)
         }
     }
     //write_probe("testprot.pdb");
-    
+    // documentation is really important, now it's really hard for me to understand this piece of code without it.
     if (!ipece_prm.inner_mem) {
         int latt_mem_z1, latt_mem_z2;
         coordi[2] = -6.;
