@@ -18,7 +18,7 @@
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.macosx.base.1807680689.1881264726" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.llvm.gnu.macosx.base.1046276293" name="LLVM with GCC (MacOSX)" superClass="cdt.managedbuild.toolchain.llvm.gnu.macosx.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.MachO64" id="cdt.managedbuild.target.llvm.gnu.macosx.platform.base.1079835337" isAbstract="true" name="Debug Platform" osList="macosx" superClass="cdt.managedbuild.target.llvm.gnu.macosx.platform.base"/>
-							<builder buildPath="${workspace_loc:/ipece}/Default" id="cdt.managedbuild.target.llvm.builder.base.1741499111" name="CDT Internal Builder.Default" superClass="cdt.managedbuild.target.llvm.builder.base"/>
+							<builder buildPath="${workspace_loc:/ipece}/Default" id="cdt.managedbuild.target.llvm.builder.base.1741499111" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.target.llvm.builder.base"/>
 							<tool id="cdt.managedbuild.tool.llvm.assembler.base.1315063192" name="LLVM assembler" superClass="cdt.managedbuild.tool.llvm.assembler.base"/>
 							<tool id="cdt.managedbuild.tool.llvm.archiver.base.1844591704" name="LLVM archiver" superClass="cdt.managedbuild.tool.llvm.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.llvm.gnu.c.compiler.base.1362667882" name="LLVM GCC" superClass="cdt.managedbuild.tool.llvm.gnu.c.compiler.base">

@@ -17,6 +17,7 @@ void rotate(ATOMS atoms, float *rotation)
     int i;
     int j;
     //printf("rotation component, x:%.2f, y:%.2f, z:%.2f, angle:%.2f\n", rotation[0], rotation[1], rotation[2], rotation[3]);
+    // some comment
     rotation_matrix[0][0] = rotation[0]*rotation[0]*(1-cos_alpha) + cos_alpha;
     rotation_matrix[0][1] = rotation[0]*rotation[1]*(1-cos_alpha) - rotation[2]*sin_alpha;
     rotation_matrix[0][2] = rotation[0]*rotation[2]*(1-cos_alpha) + rotation[1]*sin_alpha;
